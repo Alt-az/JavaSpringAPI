@@ -9,5 +9,6 @@ public interface ClientRepository extends MongoRepository<Client, String> {
 
     List<Client> findByHeight(String title);
 
-    List<Client> findByWeight(boolean published);
+    List<Client> findByWeight(Integer weight);
+
 }
