@@ -11,7 +11,7 @@ public interface ClientRepository extends MongoRepository<Client, String> {
 
     List<Client> findByWeight(Integer weight);
 
-    List<Client> findByLogin(String login);
+    List<Client> findByPassword(String password);
 
     List<Client> findByEmail(String email);
 

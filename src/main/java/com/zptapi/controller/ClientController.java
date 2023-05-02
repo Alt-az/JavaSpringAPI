@@ -1,5 +1,7 @@
 package com.zptapi.controller;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import com.zptapi.repository.ClientRepository;
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.zptapi.model.Client;
@@ -37,11 +40,28 @@ public class ClientController {
         }
     }
 
+    @GetMapping("/Clients")
+    public ResponseEntity<List<Client>> getClientByEmail(@RequestParam(required = false) String email) {
+        try {
+            List<Client> clients = new ArrayList<Client>();
+
+            clientRepository.findByEmail(email).forEach(clients::add);
+
+            if (clients.isEmpty()) {
+                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            }
+
+            return new ResponseEntity<>(clients, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
     @PostMapping("/Clients")
     public ResponseEntity<Client> createClient(@RequestBody Client client) {
         try {
             Client _client = clientRepository
-                    .save(new Client(client.getEmail(), client.getLogin(), client.getWeight(), client.getHeight()));
+                    .save(new Client(client.getEmail(), client.getPassword(), client.getWeight(), client.getHeight()));
             return new ResponseEntity<>(_client, HttpStatus.CREATED);
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -57,7 +77,7 @@ public class ClientController {
             _client.setWeight(Client.getWeight());
             _client.setHeight(Client.getHeight());
             _client.setEmail(Client.getEmail());
-            _client.setLogin(Client.getLogin());
+            _client.setPassword(Client.getPassword());
             return new ResponseEntity<>(clientRepository.save(_client), HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);

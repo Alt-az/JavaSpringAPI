@@ -7,20 +7,19 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class Client {
     @Id
     private String id;
-
+    private String email;
+    private String password;
     private Integer weight;
     private Integer height;
-    private String email;
-    private String login;
 
     public Client() {
     }
 
-    public Client(String email, String login, Integer weight, Integer height) {
+    public Client(String email, String password, Integer weight, Integer height) {
         this.weight = weight;
         this.height = height;
         this.email = email;
-        this.login = login;
+        this.password = password;
     }
 
     public String getId() {
@@ -55,12 +54,12 @@ public class Client {
         this.email = email;
     }
 
-    public String getLogin() {
-        return login;
+    public String getPassword() {
+        return password;
     }
 
-    public void setLogin(String login) {
-        this.login = login;
+    public void setPassword(String password) {
+        this.password = password;
     }
 
 }
