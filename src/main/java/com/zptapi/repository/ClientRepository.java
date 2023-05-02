@@ -7,8 +7,12 @@ import com.zptapi.model.Client;
 
 public interface ClientRepository extends MongoRepository<Client, String> {
 
-    List<Client> findByHeight(String title);
+    List<Client> findByHeight(Integer height);
 
     List<Client> findByWeight(Integer weight);
+
+    List<Client> findByLogin(String login);
+
+    List<Client> findByEmail(String email);
 
 }

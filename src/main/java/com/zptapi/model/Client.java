@@ -8,15 +8,19 @@ public class Client {
     @Id
     private String id;
 
-    private String weight;
-    private String height;
+    private Integer weight;
+    private Integer height;
+    private String email;
+    private String login;
 
     public Client() {
     }
 
-    public Client(String weight, String height) {
+    public Client(String email, String login, Integer weight, Integer height) {
         this.weight = weight;
         this.height = height;
+        this.email = email;
+        this.login = login;
     }
 
     public String getId() {
@@ -27,20 +31,36 @@ public class Client {
         this.id = id;
     }
 
-    public String getWeight() {
+    public Integer getWeight() {
         return weight;
     }
 
-    public void setWeight(String weight) {
+    public void setWeight(Integer weight) {
         this.weight = weight;
     }
 
-    public String getHeight() {
+    public Integer getHeight() {
         return height;
     }
 
-    public void setHeight(String height) {
+    public void setHeight(Integer height) {
         this.height = height;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getLogin() {
+        return login;
+    }
+
+    public void setLogin(String login) {
+        this.login = login;
     }
 
 }

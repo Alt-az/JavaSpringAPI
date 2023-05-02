@@ -1,7 +1,5 @@
 package com.zptapi.controller;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 
 import com.zptapi.repository.ClientRepository;
@@ -16,7 +14,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.zptapi.model.Client;
@@ -43,7 +40,8 @@ public class ClientController {
     @PostMapping("/Clients")
     public ResponseEntity<Client> createClient(@RequestBody Client client) {
         try {
-            Client _client = clientRepository.save(new Client(client.getWeight(), client.getHeight()));
+            Client _client = clientRepository
+                    .save(new Client(client.getEmail(), client.getLogin(), client.getWeight(), client.getHeight()));
             return new ResponseEntity<>(_client, HttpStatus.CREATED);
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -55,9 +53,11 @@ public class ClientController {
         Optional<Client> ClientData = clientRepository.findById(id);
 
         if (ClientData.isPresent()) {
-            Client _client =  ClientData.get();
+            Client _client = ClientData.get();
             _client.setWeight(Client.getWeight());
-            _client.setDescription(Client.getHeight());
+            _client.setHeight(Client.getHeight());
+            _client.setEmail(Client.getEmail());
+            _client.setLogin(Client.getLogin());
             return new ResponseEntity<>(clientRepository.save(_client), HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -66,12 +66,22 @@ public class ClientController {
 
     @DeleteMapping("/Clients/{id}")
     public ResponseEntity<HttpStatus> deleteClient(@PathVariable("id") String id) {
-
+        try {
+            clientRepository.deleteById(id);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     @DeleteMapping("/Clients")
     public ResponseEntity<HttpStatus> deleteAllClients() {
-
+        try {
+            clientRepository.deleteAll();
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
 }
