@@ -1,6 +1,9 @@
 package com.zptapi.controller;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+
 import com.zptapi.repository.ClientRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -24,26 +27,41 @@ import com.zptapi.model.Client;
 public class ClientController {
 
     @Autowired
-    ClientRepository ClientRepository;
-
-    @GetMapping("/Clients")
-    public ResponseEntity<List<Client>> getAllClients(@RequestParam(required = false) String title) {
-
-    }
+    ClientRepository clientRepository;
 
     @GetMapping("/Clients/{id}")
     public ResponseEntity<Client> getClientById(@PathVariable("id") String id) {
+        Optional<Client> clientData = clientRepository.findById(id);
 
+        if (clientData.isPresent()) {
+            return new ResponseEntity<>(clientData.get(), HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 
     @PostMapping("/Clients")
-    public ResponseEntity<Client> createClient(@RequestBody Client Client) {
-
+    public ResponseEntity<Client> createClient(@RequestBody Client client) {
+        try {
+            Client _client = clientRepository.save(new Client(client.getWeight(), client.getHeight()));
+            return new ResponseEntity<>(_client, HttpStatus.CREATED);
+        } catch (Exception e) {
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     @PutMapping("/Clients/{id}")
     public ResponseEntity<Client> updateClient(@PathVariable("id") String id, @RequestBody Client Client) {
+        Optional<Client> ClientData = clientRepository.findById(id);
 
+        if (ClientData.isPresent()) {
+            Client _client =  ClientData.get();
+            _client.setWeight(Client.getWeight());
+            _client.setDescription(Client.getHeight());
+            return new ResponseEntity<>(clientRepository.save(_client), HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 
     @DeleteMapping("/Clients/{id}")
@@ -53,11 +71,6 @@ public class ClientController {
 
     @DeleteMapping("/Clients")
     public ResponseEntity<HttpStatus> deleteAllClients() {
-
-    }
-
-    @GetMapping("/Clients/weight")
-    public ResponseEntity<List<Client>> findByPublished() {
 
     }
 
