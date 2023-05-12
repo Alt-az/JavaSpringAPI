@@ -1,11 +1,14 @@
 package com.zptapi.repository;
 
 import java.util.List;
-import org.springframework.data.mongodb.repository.MongoRepository;
+import java.util.Optional;
+
+import org.springframework.data.repository.CrudRepository;
 
 import com.zptapi.model.Client;
 
-public interface ClientRepository extends MongoRepository<Client, String> {
+public interface ClientRepository extends CrudRepository<Client, Long> {
+    Optional<Client> findById(Long id);
 
     List<Client> findByHeight(Integer height);
 

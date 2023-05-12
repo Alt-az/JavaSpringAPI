@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.zptapi.model.Client;
 
-@CrossOrigin(origins = "http://localhost:3000")
+// @CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequestMapping("/api")
 public class ClientController {
@@ -30,7 +30,7 @@ public class ClientController {
     ClientRepository clientRepository;
 
     @GetMapping("/Clients/{id}")
-    public ResponseEntity<Client> getClientById(@PathVariable("id") String id) {
+    public ResponseEntity<Client> getClientById(@PathVariable("id") Long id) {
         Optional<Client> clientData = clientRepository.findById(id);
 
         if (clientData.isPresent()) {
@@ -69,7 +69,7 @@ public class ClientController {
     }
 
     @PutMapping("/Clients/{id}")
-    public ResponseEntity<Client> updateClient(@PathVariable("id") String id, @RequestBody Client Client) {
+    public ResponseEntity<Client> updateClient(@PathVariable("id") Long id, @RequestBody Client Client) {
         Optional<Client> ClientData = clientRepository.findById(id);
 
         if (ClientData.isPresent()) {
@@ -85,7 +85,7 @@ public class ClientController {
     }
 
     @DeleteMapping("/Clients/{id}")
-    public ResponseEntity<HttpStatus> deleteClient(@PathVariable("id") String id) {
+    public ResponseEntity<HttpStatus> deleteClient(@PathVariable("id") Long id) {
         try {
             clientRepository.deleteById(id);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);

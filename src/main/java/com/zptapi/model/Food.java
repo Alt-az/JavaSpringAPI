@@ -2,23 +2,28 @@ package com.zptapi.model;
 
 import java.io.Serializable;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "Diet_Plan")
-public class Food implements Serializable {
+@Table(name = "food")
+public class Food {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name = "name")
     private String name;
-    private String calories;
+    @Column(name = "calories")
+    private Integer calories;
+    @Column(name = "weight")
     private Integer weight;
 
+    @ManyToOne
+    @JoinColumn(name = "diet_plan_id", nullable = false)
     private DietPlan diet;
 }
