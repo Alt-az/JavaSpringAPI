@@ -1,12 +1,12 @@
 version: "3.7"
 services:
   maria_db:
-    image: "mariadb:10.5.8"
+    image: "mariadb:latest"
     restart: always
     ports:
       - 3306:3306
     environment:
-      MYSQL_DATABASE: java_to_dev_app_db
-      MYSQL_USER: java_to_dev
-      MYSQL_PASSWORD: nE5kMc7JCGNqwDQM
-      MYSQL_ROOT_PASSWORD: nE5kMc7JCGNqwDQN
+      MYSQL_DATABASE: MDB
+      MYSQL_USER: root
+      MYSQL_PASSWORD: root
+      MYSQL_ROOT_PASSWORD: root
