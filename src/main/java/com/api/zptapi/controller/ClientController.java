@@ -4,8 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import com.api.zptapi.model.DietPlan;
+import com.api.zptapi.model.ExcercisePlan;
 import com.api.zptapi.repository.ClientRepository;
 
+import com.api.zptapi.repository.DietPlanRepository;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +33,8 @@ public class ClientController {
 
     @Autowired
     ClientRepository clientRepository;
+    @Autowired
+    DietPlanRepository dietPlanRepository;
 
     @GetMapping("/clients/{id}")
     public ResponseEntity<Client> getClientById(@PathVariable("id") Long id) {
@@ -68,9 +73,11 @@ public class ClientController {
         try {
             Client _client = clientRepository
                     .save(new Client(client.getEmail(), client.getPassword(), client.getWeight(),
-                            client.getHeight()));
+                            client.getHeight(),new DietPlan(),new ExcercisePlan()));
+            dietPlanRepository.save(_client.getDietPlan());
             return new ResponseEntity<>(_client, HttpStatus.CREATED);
         } catch (Exception e) {
+            e.printStackTrace();
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -79,13 +86,13 @@ public class ClientController {
     public ResponseEntity<Client> updateClient(@PathVariable("id") Long id,
             @RequestBody Client Client) {
         Optional<Client> ClientData = clientRepository.findById(id);
-
         if (ClientData.isPresent()) {
             Client _client = ClientData.get();
             _client.setWeight(Client.getWeight());
             _client.setHeight(Client.getHeight());
             _client.setEmail(Client.getEmail());
             _client.setPassword(Client.getPassword());
+            _client.setDietPlan(Client.getDietPlan());
             return new ResponseEntity<>(clientRepository.save(_client), HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);

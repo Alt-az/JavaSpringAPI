@@ -1,3 +1,11 @@
+CREATE TABLE IF NOT EXISTS diet_plan(
+    `id` bigint(20) NOT NULL,
+    PRIMARY KEY (`id`)
+)ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+CREATE TABLE IF NOT EXISTS excercise_plan(
+    `id` bigint(20) NOT NULL,
+    PRIMARY KEY (`id`)
+)ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 CREATE TABLE IF NOT EXISTS clients(
     `id` bigint(20) NOT NULL AUTO_INCREMENT,
     `email` varchar(255) DEFAULT NULL,
@@ -6,5 +14,3 @@ CREATE TABLE IF NOT EXISTS clients(
     `height` int DEFAULT NULL,
     PRIMARY KEY (`id`)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-DELETE FROM clients;
-INSERT INTO clients(email, password, weight, height) VALUES ('235979@edu.p.lodz.pl','123',68,181);
