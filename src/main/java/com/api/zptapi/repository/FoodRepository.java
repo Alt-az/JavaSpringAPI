@@ -1,6 +1,6 @@
 package com.api.zptapi.repository;
 
-import com.zptapi.model.Food;
+import com.api.zptapi.model.Food;
 import org.springframework.data.repository.CrudRepository;
 
 import java.util.List;

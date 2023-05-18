@@ -13,16 +13,19 @@ public class DietPlan implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @OneToMany(mappedBy = "dietPlan")
-    private Set<Food> food;
+    @ManyToMany
+    @JoinTable(
+            name = "food_list",
+            joinColumns = @JoinColumn(name = "food_id"),
+            inverseJoinColumns = @JoinColumn(name = "diet_id"))
+    private Set<Food> food_list;
 
     @OneToOne(mappedBy = "dietPlan")
     private Client client;
 
     public DietPlan() {
-        food = new HashSet<>();
+        food_list = new HashSet<>();
     }
-
 
     public Long getId() {
         return id;
@@ -33,16 +36,18 @@ public class DietPlan implements Serializable {
     }
 
     public void addFood(Food meal){
-        food.add(meal);
+        food_list.add(meal);
     }
 
     public void removeFood(Food meal){
-        food.remove(meal);
+        food_list.remove(meal);
     }
+
     @Override
     public String toString() {
         return "DietPlan{" +
                 "id=" + id +
+                ", food_list=" + food_list +
                 ", client=" + client +
                 '}';
     }

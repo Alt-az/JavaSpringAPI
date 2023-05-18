@@ -75,6 +75,7 @@ public class ClientController {
                     .save(new Client(client.getEmail(), client.getPassword(), client.getWeight(),
                             client.getHeight(),new DietPlan(),new ExcercisePlan()));
             dietPlanRepository.save(_client.getDietPlan());
+            System.out.println(_client.getDietPlan());
             return new ResponseEntity<>(_client, HttpStatus.CREATED);
         } catch (Exception e) {
             e.printStackTrace();
