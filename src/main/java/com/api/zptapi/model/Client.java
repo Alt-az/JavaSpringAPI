@@ -1,7 +1,5 @@
 package com.api.zptapi.model;
 
-import com.api.zptapi.model.DietPlan;
-import com.api.zptapi.model.ExcercisePlan;
 import jakarta.persistence.*;
 
 import java.io.Serializable;
@@ -25,18 +23,18 @@ public class Client implements Serializable {
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "excercise_id")
-    private ExcercisePlan excercisePlan;
+    private ExercisePlan exercisePlan;
 
     public Client() {
     }
 
-    public Client(String email, String password, int weight, int height, DietPlan dietPlan, ExcercisePlan excercisePlan) {
+    public Client(String email, String password, int weight, int height, DietPlan dietPlan, ExercisePlan exercisePlan) {
         this.email = email;
         this.password = password;
         this.weight = weight;
         this.height = height;
         this.dietPlan = dietPlan;
-        this.excercisePlan = excercisePlan;
+        this.exercisePlan = exercisePlan;
     }
 
     public DietPlan getDietPlan() {
@@ -47,12 +45,12 @@ public class Client implements Serializable {
         this.dietPlan = dietPlan;
     }
 
-    public ExcercisePlan getExcercisePlan() {
-        return excercisePlan;
+    public ExercisePlan getExcercisePlan() {
+        return exercisePlan;
     }
 
-    public void setExcercisePlan(ExcercisePlan excercisePlan) {
-        this.excercisePlan = excercisePlan;
+    public void setExcercisePlan(ExercisePlan exercisePlan) {
+        this.exercisePlan = exercisePlan;
     }
 
     public int getWeight() {
@@ -103,7 +101,7 @@ public class Client implements Serializable {
                 ", weight=" + weight +
                 ", height=" + height +
                 ", dietPlan=" + dietPlan +
-                ", excercisePlan=" + excercisePlan +
+                ", exercisePlan=" + exercisePlan +
                 '}';
     }
 }

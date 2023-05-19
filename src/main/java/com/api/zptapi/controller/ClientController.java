@@ -5,11 +5,10 @@ import java.util.List;
 import java.util.Optional;
 
 import com.api.zptapi.model.DietPlan;
-import com.api.zptapi.model.ExcercisePlan;
+import com.api.zptapi.model.ExercisePlan;
 import com.api.zptapi.repository.ClientRepository;
 
 import com.api.zptapi.repository.DietPlanRepository;
-import lombok.RequiredArgsConstructor;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -73,7 +72,7 @@ public class ClientController {
         try {
             Client _client = clientRepository
                     .save(new Client(client.getEmail(), client.getPassword(), client.getWeight(),
-                            client.getHeight(),new DietPlan(),new ExcercisePlan()));
+                            client.getHeight(),new DietPlan(),new ExercisePlan()));
             dietPlanRepository.save(_client.getDietPlan());
             System.out.println(_client.getDietPlan());
             return new ResponseEntity<>(_client, HttpStatus.CREATED);

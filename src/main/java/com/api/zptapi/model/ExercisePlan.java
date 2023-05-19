@@ -1,13 +1,13 @@
 package com.api.zptapi.model;
 
-import com.api.zptapi.model.Client;
 import jakarta.persistence.*;
 
 import java.io.Serializable;
+import java.util.Set;
 
 @Entity
 @Table(name = "excercise_plan")
-public class ExcercisePlan implements Serializable {
+public class ExercisePlan implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -15,16 +15,23 @@ public class ExcercisePlan implements Serializable {
     @OneToOne(mappedBy = "excercisePlan")
     private Client client;
 
-    public ExcercisePlan() {
+    @ManyToMany
+    @JoinTable(
+            name = "exercise_list",
+            joinColumns = @JoinColumn(name = "excercise_id"),
+            inverseJoinColumns = @JoinColumn(name = "excercise_plan_id"))
+    private Set<Exercise> excercise_list;
+
+    public ExercisePlan() {
     }
 
-    public ExcercisePlan(Client client) {
+    public ExercisePlan(Client client) {
         this.client = client;
     }
 
     @Override
     public String toString() {
-        return "ExcercisePlan{" +
+        return "ExercisePlan{" +
                 "id=" + id +
                 ", client=" + client +
                 '}';
