@@ -2,6 +2,7 @@ package com.api.zptapi.controller;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 import com.api.zptapi.model.DietPlan;
@@ -13,19 +14,14 @@ import com.api.zptapi.repository.DietPlanRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.util.ObjectUtils;
+import org.springframework.util.StringUtils;
+import org.springframework.util.comparator.NullSafeComparator;
+import org.springframework.web.bind.annotation.*;
 
 import com.api.zptapi.model.Client;
 
-// @CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequestMapping("/api")
 public class ClientController {
@@ -87,12 +83,23 @@ public class ClientController {
             @RequestBody Client Client) {
         Optional<Client> ClientData = clientRepository.findById(id);
         if (ClientData.isPresent()) {
+            String empty = "";
             Client _client = ClientData.get();
-            _client.setWeight(Client.getWeight());
-            _client.setHeight(Client.getHeight());
-            _client.setEmail(Client.getEmail());
-            _client.setPassword(Client.getPassword());
-            _client.setDietPlan(Client.getDietPlan());
+            if(Client.getWeight()!=0){
+                _client.setWeight(Client.getWeight());
+            }
+            if(Client.getHeight()!=0){
+                _client.setHeight(Client.getHeight());
+            }
+            if(Client.getEmail()!=null && !empty.equals(Client.getEmail())){
+                _client.setEmail(Client.getEmail());
+            }
+            if(Client.getPassword()!=null && !empty.equals(Client.getPassword())){
+                _client.setPassword(Client.getPassword());
+            }
+            if(Client.getDietPlan()!=null){
+                _client.setDietPlan(Client.getDietPlan());
+            }
             return new ResponseEntity<>(clientRepository.save(_client), HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);

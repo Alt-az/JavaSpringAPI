@@ -1,5 +1,5 @@
-FROM openjdk:8-jdk-alpine
-VOLUME /main-app
-ADD build/libs/spring-boot-mysql-base-project-0.0.1-SNAPSHOT.jar app.jar
+FROM amazoncorretto:17
+VOLUME /zpt
+ADD target/zptapi-0.0.1-SNAPSHOT.jar zptapi.jar
 EXPOSE 8080
-ENTRYPOINT ["java", "-jar","/app.jar"]
+ENTRYPOINT ["java","-jar","/zptapi.jar"]
