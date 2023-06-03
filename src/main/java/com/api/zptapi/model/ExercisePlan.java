@@ -22,18 +22,16 @@ public class ExercisePlan implements Serializable {
     public ExercisePlan() {
     }
 
-    public ExercisePlan(Client client) {
-        this.client = client;
-    }
-
     public void addExercise(Exercise exercise){
         this.exercise_list.add(exercise);
     }
+
     @Override
     public String toString() {
         return "ExercisePlan{" +
                 "id=" + id +
                 ", client=" + client +
+                ", exercise_list=" + exercise_list +
                 '}';
     }
 
@@ -45,19 +43,5 @@ public class ExercisePlan implements Serializable {
         this.id = id;
     }
 
-    public Client getClient() {
-        return client;
-    }
 
-    public void setClient(Client client) {
-        this.client = client;
-    }
-
-    public Set<Exercise> getExercise_list() {
-        return exercise_list;
-    }
-
-    public void setExercise_list(Set<Exercise> exercise_list) {
-        this.exercise_list = exercise_list;
-    }
 }
