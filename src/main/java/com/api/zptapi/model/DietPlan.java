@@ -13,11 +13,7 @@ public class DietPlan implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @ManyToMany
-    @JoinTable(
-            name = "food_list",
-            joinColumns = @JoinColumn(name = "food_id"),
-            inverseJoinColumns = @JoinColumn(name = "diet_id"))
+    @OneToMany(mappedBy="dietPlan")
     private Set<Food> food_list;
 
     @OneToOne(mappedBy = "dietPlan")

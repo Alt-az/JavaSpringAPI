@@ -15,11 +15,8 @@ public class ExercisePlan implements Serializable {
     @OneToOne(mappedBy = "exercisePlan")
     private Client client;
 
-    @ManyToMany
-    @JoinTable(
-            name = "exercise_list",
-            joinColumns = @JoinColumn(name = "exercise_id"),
-            inverseJoinColumns = @JoinColumn(name = "exercise_plan_id"))
+
+    @OneToMany(mappedBy = "exercisePlan")
     private Set<Exercise> exercise_list;
 
     public ExercisePlan() {
@@ -29,11 +26,38 @@ public class ExercisePlan implements Serializable {
         this.client = client;
     }
 
+    public void addExercise(Exercise exercise){
+        this.exercise_list.add(exercise);
+    }
     @Override
     public String toString() {
         return "ExercisePlan{" +
                 "id=" + id +
                 ", client=" + client +
                 '}';
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Client getClient() {
+        return client;
+    }
+
+    public void setClient(Client client) {
+        this.client = client;
+    }
+
+    public Set<Exercise> getExercise_list() {
+        return exercise_list;
+    }
+
+    public void setExercise_list(Set<Exercise> exercise_list) {
+        this.exercise_list = exercise_list;
     }
 }

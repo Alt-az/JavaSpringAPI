@@ -9,21 +9,11 @@ import com.api.zptapi.repository.FoodRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 
+@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequestMapping("/api")
 public class DietPlanController {
@@ -46,6 +36,12 @@ public class DietPlanController {
         }
     }
 
+    @GetMapping("/food/{id}")
+    public ResponseEntity<List<Food>> getFoodByDietId(@PathVariable("id") Long id) {
+        List<Food> food_list = foodRepository.findByDietPlanId(id);
+        return new ResponseEntity<>(food_list, HttpStatus.OK);
+    }
+
     @GetMapping("/diets")
     public ResponseEntity<List<DietPlan>> getAllDiets() {
         try {
@@ -58,16 +54,32 @@ public class DietPlanController {
     @PutMapping("/diets/{id}")
     public ResponseEntity<Food> addFood(@PathVariable("id") Long id,
                                              @RequestBody Food food) {
+        System.out.println(food);
         Optional<Client> ClientData = clientRepository.findById(id);
         if (ClientData.isPresent()) {
             Optional <DietPlan> DietPlan = dietPlanRepository.findById(ClientData.get().getId());
             if(DietPlan.isPresent()){
                 DietPlan dietPlan = DietPlan.get();
-                dietPlan.addFood(food);
-                food.addDietPlan(dietPlan);
+                food.setDietPlan(dietPlan);
                 return new ResponseEntity<>(foodRepository.save(food), HttpStatus.OK);
             }
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+    @DeleteMapping("/foodList/{id}")
+    public ResponseEntity<HttpStatus> deleteFoodList(@PathVariable("id") Long id) {
+        try {
+            List<Food> all = foodRepository.findAll();
+            if(!all.isEmpty()) {
+                for (Food food : all) {
+                    if (Objects.equals(food.getDietPlan().getId(), id)) {
+                        foodRepository.delete(food);
+                    }
+                }
+            }
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 }

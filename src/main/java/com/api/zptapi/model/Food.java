@@ -3,12 +3,13 @@ package com.api.zptapi.model;
 import com.api.zptapi.model.DietPlan;
 import jakarta.persistence.*;
 
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
 @Entity
 @Table(name = "food")
-public class Food {
+public class Food implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -21,18 +22,32 @@ public class Food {
     @Column(name = "weight")
     private Integer weight;
 
-    @ManyToMany(mappedBy = "food_list")
-    private Set<DietPlan> dietPlan;
+    @Column(name = "weekday")
+    private String weekday;
+
+    @Column(name = "hour")
+    private Integer hour;
+
+    @Column(name = "minute")
+    private Integer minute;
+
+    @ManyToOne
+    @JoinColumn(name="diet_plan_id", nullable=false)
+    private DietPlan dietPlan;
 
     public Food() {
-        this.dietPlan = new HashSet<>();
+
     }
 
-    public Food(String name, Integer calories, Integer weight) {
+    public Food(Long id, String name, Integer calories, Integer weight, String weekday, Integer hour, Integer minute, DietPlan dietPlan) {
+        this.id = id;
         this.name = name;
         this.calories = calories;
         this.weight = weight;
-        this.dietPlan = new HashSet<>();
+        this.weekday = weekday;
+        this.hour = hour;
+        this.minute = minute;
+        this.dietPlan = dietPlan;
     }
 
     public Long getId() {
@@ -67,15 +82,49 @@ public class Food {
         this.weight = weight;
     }
 
-    public void setDietPlan(Set<DietPlan> dietPlan) {
-        this.dietPlan = dietPlan;
-    }
-
-    public Set<DietPlan> getDietPlan() {
+    public DietPlan getDietPlan() {
         return dietPlan;
     }
 
-    public void addDietPlan(DietPlan dietPlan){
-        this.dietPlan.add(dietPlan);
+    public void setDietPlan(DietPlan dietPlan) {
+        this.dietPlan = dietPlan;
+    }
+
+    public String getWeekday() {
+        return weekday;
+    }
+
+    public void setWeekday(String weekday) {
+        this.weekday = weekday;
+    }
+
+    public Integer getHour() {
+        return hour;
+    }
+
+    public void setHour(Integer hour) {
+        this.hour = hour;
+    }
+
+    public Integer getMinute() {
+        return minute;
+    }
+
+    public void setMinute(Integer minute) {
+        this.minute = minute;
+    }
+
+    @Override
+    public String toString() {
+        return "Food{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", calories=" + calories +
+                ", weight=" + weight +
+                ", weekday='" + weekday + '\'' +
+                ", hour=" + hour +
+                ", minute=" + minute +
+                ", dietPlan=" + dietPlan +
+                '}';
     }
 }

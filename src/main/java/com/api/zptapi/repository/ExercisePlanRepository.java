@@ -5,7 +5,7 @@ import org.springframework.data.repository.CrudRepository;
 
 import java.util.Optional;
 
-public interface ExcercisePlanRepository extends CrudRepository<ExercisePlan, Long> {
+public interface ExercisePlanRepository extends CrudRepository<ExercisePlan, Long> {
     Optional<ExercisePlan> findById(Long id);
 
 }

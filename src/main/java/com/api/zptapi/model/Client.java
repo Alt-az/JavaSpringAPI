@@ -45,14 +45,6 @@ public class Client implements Serializable {
         this.dietPlan = dietPlan;
     }
 
-    public ExercisePlan getExcercisePlan() {
-        return exercisePlan;
-    }
-
-    public void setExcercisePlan(ExercisePlan exercisePlan) {
-        this.exercisePlan = exercisePlan;
-    }
-
     public int getWeight() {
         return weight;
     }
