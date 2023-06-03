@@ -31,12 +31,18 @@ public class Exercise implements Serializable {
     @JoinColumn(name="exercise_plan_id", nullable=false)
     private ExercisePlan exercisePlan;
 
-    public Exercise(Long id, String name, String muscle, String difficulty, ExercisePlan exercisePlans) {
+    public Exercise() {
+    }
+
+    public Exercise(Long id, String name, String muscle, String difficulty, String weekday, Integer hour, Integer minute, ExercisePlan exercisePlan) {
         this.id = id;
         this.name = name;
         this.muscle = muscle;
         this.difficulty = difficulty;
-        this.exercisePlan = exercisePlans;
+        this.weekday = weekday;
+        this.hour = hour;
+        this.minute = minute;
+        this.exercisePlan = exercisePlan;
     }
 
     public void setExercisePlan(ExercisePlan exercisePlan) {
